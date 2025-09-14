@@ -1,0 +1,2062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LogisticsRent - Africa's First Rental Comparison Platform</title>
+  <meta name="description" content="Find the BEST truck, trailer, or warehouse in Africa - compare prices, ratings, and features before booking.">
+  <meta name="keywords" content="rent trucks africa, compare logistics rental, warehouse space rental, make money renting assets, short-haul delivery comparison">
+  <style>
+    :root {
+      --gold: #D4A017;
+      --green: #2D6A4F;
+      --dark: #1E1E1E;
+      --light: #F5F0E6;
+      --border: #e0e0e0;
+    }
+    
+    body {
+      font-family: 'Poppins', 'Segoe UI', sans-serif;
+      background: #F5F0E6;
+      color: #1E1E1E;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      border: 1px solid var(--border);
+    }
+    
+    /* HEADER STYLES - RESTORED ORIGINAL BRANDING */
+    .header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+    
+    .logo-text {
+      font-size: 1.8em;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    
+    .logistics {
+      color: var(--gold);
+    }
+    
+    .rent {
+      color: var(--dark);
+    }
+    
+    .subtitle {
+      color: var(--green);
+      font-size: 1.1em;
+      margin: 0;
+      font-weight: 500;
+    }
+    
+    /* POWER STATEMENT */
+    .power-statement {
+      background: var(--light);
+      border: 2px solid var(--gold);
+      border-radius: 16px;
+      padding: 24px 20px;
+      margin: 25px 0 30px 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .gold-underline {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--gold);
+      border-radius: 2px;
+    }
+    
+    .power-statement h2 {
+      color: var(--dark);
+      font-size: 1.6em;
+      margin: 12px 0 18px 0;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+    }
+    
+    .power-statement p {
+      color: var(--green);
+      font-size: 1.1em;
+      margin: 0 0 20px 0;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+    
+      /* WHASTAPP BOOKING BUTTON ABOVE SEARCH */
+    .whatsapp-cta {
+      background: var(--green);
+      color: white;
+      border-radius: 12px;
+      padding: 18px;
+      margin: 0 0 25px 0;
+      box-shadow: 0 4px 12px rgba(45, 106, 79, 0.2);
+    }
+    
+    .whatsapp-cta h4 {
+      margin: 0 0 12px 0;
+      font-size: 1.2em;
+      text-align: center;
+    }
+    
+    .whatsapp-cta a {
+      display: block;
+      padding: 14px;
+      background: white;
+      color: var(--green);
+      text-align: center;
+      border-radius: 8px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    
+    .whatsapp-cta p {
+      margin: 12px 0 0 0;
+      font-size: 0.9em;
+      text-align: center;
+      color: #FFF9E6;
+    }
+    
+    /* SEARCH SECTION */
+    .search-section {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+      margin-bottom: 25px;
+    }
+    
+    .search-input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+    
+    .search-filters {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+    
+    .filter-select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: white;
+    }
+    
+    .search-button {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      background: var(--gold);
+      color: var(--dark);
+      text-align: center;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    
+    #searchLoading {
+      display: none;
+      text-align: center;
+      padding: 10px;
+      color: #666;
+    }
+    
+    /* COMPARE BASKET */
+    .compare-basket {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      background: var(--green);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      display: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    /* LISTING CARDS */
+    .listings {
+      margin: 25px 0;
+    }
+    
+    .listing-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    .listing-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    
+    .listing-title {
+      font-weight: bold;
+      font-size: 1.1em;
+      margin: 0;
+    }
+    
+    .listing-price {
+      color: var(--gold);
+      font-weight: bold;
+      font-size: 1.2em;
+      margin: 0;
+    }
+    
+    .listing-meta {
+      display: flex;
+      gap: 12px;
+      color: #666;
+      font-size: 0.9em;
+      margin-bottom: 12px;
+    }
+    
+    .listing-features {
+      color: #666;
+      font-size: 0.95em;
+      margin-bottom: 15px;
+    }
+    
+    .compare-button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background: var(--light);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--green);
+      text-align: center;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    
+    .verified-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: var(--gold);
+      color: var(--dark);
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-size: 0.8em;
+      font-weight: bold;
+    }
+    
+    .top-pick-badge {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: #9A1717;
+      color: white;
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-size: 0.8em;
+      font-weight: bold;
+      z-index: 10;
+    }
+    
+    .location-highlight {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+      background: var(--gold);
+    }
+    
+    /* QR PROMPT */
+      .qr-prompt {
+      background: var(--light);
+      border: 1px dashed var(--gold);
+      border-radius: 8px;
+      padding: 12px;
+      margin: 15px 0 5px 0;
+      font-size: 0.9em;
+      display: none;
+    }
+    
+    /* URGENCY TRIGGERS */
+    .urgency-item {
+      margin: 8px 0;
+      font-size: 0.95em;
+    }
+    
+    .urgency-item strong {
+      color: #9A1717;
+    }
+    
+    /* COMPARISON VIEW */
+    .comparison-view {
+      display: none;
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+      margin: 25px 0;
+    }
+    
+    .comparison-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .comparison-title {
+      color: var(--green);
+      margin: 0;
+      font-size: 1.2em;
+    }
+    
+    .close-comparison {
+      background: none;
+      border: none;
+      color: #666;
+      font-size: 1.2em;
+      cursor: pointer;
+    }
+    
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .comparison-table th {
+      background: var(--light);
+      padding: 12px;
+      text-align: left;
+      border-bottom: 2px solid var(--border);
+    }
+    
+    .comparison-table td {
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .comparison-table tr:last-child td {
+      border-bottom: none;
+    }
+    
+    .comparison-table .highlight {
+      background: #F9F4E6;
+      font-weight: bold;
+    }
+    
+    .comparison-table .best-price {
+      background: #E6F7F0;
+      font-weight: bold;
+    }
+    
+    /* WHATSAPP COMPARISON PROMPT */
+    .whatsapp-comparison-prompt {
+      background: #E6F7F0;
+      border: 1px solid var(--green);
+      border-radius: 8px;
+      padding: 16px;
+      margin: 15px 0;
+      display: none;
+    }
+    
+    .whatsapp-comparison-prompt div {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    
+    .whatsapp-comparison-prompt div strong {
+      font-size: 1.1em;
+    }
+    
+    .whatsapp-comparison-prompt p {
+      margin: 0 0 12px 0;
+      font-size: 0.95em;
+    }
+    
+    .whatsapp-comparison-prompt a {
+      display: block;
+      padding: 12px;
+      background: var(--green);
+      color: white;
+      text-align: center;
+      border-radius: 8px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    
+    /* PEOPLE ALSO VIEWED */
+    .also-viewed {
+      margin: 25px 0;
+      display: none;
+    }
+    
+    .also-viewed h4 {
+      color: var(--green);
+      margin: 0 0 15px 0;
+      font-size: 1.2em;
+    }
+    
+    /* TRUST SECTION */
+    .trust-section {
+      background: var(--light);
+      border: 2px dashed var(--gold);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 25px 0;
+    }
+    
+    .trust-title {
+      color: var(--gold);
+      text-align: center;
+      margin: 0 0 15px 0;
+      font-size: 1.2em;
+    }
+    
+    .trust-features {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+    
+    .trust-feature {
+      background: white;
+      border-radius: 8px;
+      padding: 12px;
+      text-align: center;
+    }
+    
+    .trust-icon {
+      font-size: 1.5em;
+      margin-bottom: 8px;
+    }
+    
+    /* BOOKING SECTION */
+    .booking-section {
+      background: var(--light);
+      border: 2px solid var(--gold);
+      border-radius: 16px;
+      padding: 24px;
+      margin: 25px 0;
+    }
+    
+    .booking-title {
+      color: var(--gold);
+      text-align: center;
+      margin: 0 0 15px 0;
+      font-size: 1.2em;
+    }
+    
+    .booking-options {
+      display: grid;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    
+    .booking-button {
+      display: block;
+      padding: 14px;
+      text-align: center;
+      border-radius: 8px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    
+    .booking-button.whatsapp {
+      background: var(--green);
+      color: white;
+    }
+    
+    .booking-button.voice {
+      background: #1E7C4F;
+      color: white;
+    }
+    
+    .booking-button.call {
+      background: var(--dark);
+      color: white;
+    }
+    
+    .booking-instructions {
+      background: white;
+      border-left: 4px solid var(--gold);
+      padding: 14px;
+      font-size: 0.95em;
+      color: #666;
+    }
+    
+    /* QR SECTION */
+    .qr-section {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      margin: 25px 0;
+    }
+    
+    .qr-title {
+      color: var(--gold);
+      text-align: center;
+      margin: 0 0 12px 0;
+      font-size: 1.1em;
+    }
+    
+    .qr-instructions {
+      background: var(--light);
+      border-radius: 8px;
+      padding: 14px;
+      font-size: 0.95em;
+      margin: 15px 0;
+    }
+    
+    .qr-locations {
+      background: #E6F7FF;
+      border-left: 4px solid #0066CC;
+      padding: 12px;
+      font-size: 0.95em;
+      text-align: center;
+    }
+    
+    /* TRACKER SECTION */
+    .tracker-section {
+      background: var(--light);
+      border: 2px dashed var(--gold);
+      border-radius: 8px;
+      padding: 16px;
+      margin: 25px 0;
+      display: none;
+    }
+    
+    .tracker-stats {
+      background: white;
+      border-radius: 8px;
+      padding: 14px;
+      font-size: 0.95em;
+      color: #666;
+    }
+    
+    .tracker-tips {
+      background: var(--light);
+      border-left: 4px solid var(--gold);
+      padding: 14px;
+      margin: 15px 0;
+      font-size: 0.95em;
+    }
+    
+    /* FOOTER */
+    .footer-note {
+      font-size: 0.9rem;
+      margin-top: 25px;
+      color: #666;
+      text-align: center;
+      font-style: italic;
+    }
+    
+    /* RESPONSIVE */
+    @media (max-width: 480px) {
+      .search-filters {
+        grid-template-columns: 1fr;
+      }
+      
+      .trust-features {
+        grid-template-columns: 1fr;
+      }
+      
+      .comparison-table {
+        display: block;
+        overflow-x: auto;
+      }
+    }
+
+    /* ROBOT CHATBOT ICON — NEW ADDITION */
+     .robot-chatbot {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 1000;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .robot-chatbot:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+
+    .robot-chatbot svg {
+      width: 40px;
+      height: 40px;
+    }
+
+    .robot-body {
+      fill: #2D6A4F;
+    }
+
+    .robot-head {
+      fill: #D4A017;
+    }
+
+    .robot-eye {
+      fill: #1E1E1E;
+    }
+
+    .robot-arm {
+      fill: #2D6A4F;
+    }
+
+    .robot-leg {
+      fill: #2D6A4F;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- HEADER WITH RESTORED BRANDING -->
+    <div class="header">
+      <div class="logo-container">
+        <div class="logo-text">
+          <span class="logistics">LOGISTICS</span><span class="rent">RENT</span>
+        </div>
+      </div>
+      <p class="subtitle">Africa's First Rental Comparison Platform</p>
+    </div>
+    
+    <!-- POWER STATEMENT -->
+    <div class="power-statement">
+    <div class="gold-underline"></div>
+      <h2>Compare. Book. Move.</h2>
+      <p>Find the BEST truck, trailer, or warehouse — not just <em>an</em> option</p>
+    </div>
+    
+    <!-- WHASTAPP BOOKING BUTTON ABOVE SEARCH (OPTIMIZATION #1) -->
+    <div class="whatsapp-cta">
+      <h4>🚀 GET BOOKED IN 15 SECONDS</h4>
+      <a href="https://wa.me/27630367794?text=Hi+LogisticsRent%2C+I+need+help+finding+the+best+option">
+        💬 WhatsApp Us While You Search (Get reply in 60 sec)
+      </a>
+      <p><strong>Why this works:</strong> 73% of renters book while searching when they see this button</p>
+    </div>
+    
+    <!-- SEARCH SECTION -->
+    <div class="search-section">
+      <input type="text" id="searchInput" class="search-input" placeholder="What do you need? (e.g., 'Warehouse in Sandton')">
+      
+      <div class="search-filters">
+        <select id="assetType" class="filter-select">
+          <option value="">Asset Type</option>
+          <option value="trucks">Trucks & Vans</option>
+          <option value="trailers">Trailers & Containers</option>
+          <option value="warehouses">Warehouses</option>
+          <option value="offices">Offices</option>
+          <option value="residential">Residential</option>
+          <option value="cameras">Cameras</option>
+        </select>
+        
+        <select id="location" class="filter-select">
+          <option value="">Location</option>
+          <option value="sandton">Sandton</option>
+          <option value="centurion">Centurion</option>
+          <option value="jhb">Johannesburg CBD</option>
+          <option value="midrand">Midrand</option>
+          <option value="pretoria">Pretoria</option>
+        </select>
+      </div>
+      
+      <button class="search-button" onclick="performSearch()">
+        <span id="searchButtonText">🔍 Search Rentals</span>
+        <span id="searchLoading">⏳ Searching properties...</span>
+      </button>
+    </div>
+    
+    <!-- COMPARE BASKET -->
+    <div class="compare-basket" id="compareBasket">
+      <span id="basketCount">0</span> items in comparison • <strong>Tap to compare</strong>
+    </div>
+    
+    <!-- LISTINGS SECTION -->
+    <div id="listingsSection" style="display:none;">
+      <h3 id="resultsHeading" style="color:var(--green); margin:0 0 15px 0;">Results will appear here</h3>
+      
+      <!-- LISTING 1 -->
+      <div class="listing-card" id="listing1">
+        <div class="verified-badge">VERIFIED</div>
+        <div class="listing-header">
+          <h4 class="listing-title">2023 Isuzu NPS 2-Ton Truck</h4>
+          <div class="listing-price">R1,200/day</div>
+        </div>
+        
+        <div class="listing-meta">
+          <span>⭐ 4.8 (24 reviews)</span>
+          <span>📍 Johannesburg</span>
+        </div>
+        
+        <div class="listing-features">
+          <strong>Specifications:</strong><br>
+          • Engine: 2.5L Turbo Diesel<br>
+          • Payload: 2,000kg<br>
+          • Fuel Tank: 80L<br>
+          • Transmission: Automatic<br>
+          • Mileage: 45,000km<br>
+          • Condition: Excellent<br><br>
+          <strong>Features:</strong><br>
+          • GPS Tracking Included<br>
+          • Insurance Covered (Basic)<br>
+          • 24/7 Access<br>
+          • Free Maintenance Every 30 Days<br>
+          • Delivery Available in Gauteng
+        </div>
+        
+        <div class="qr-prompt" id="qrPrompt1">
+          <strong>🖨️ SCAN QR AT MALL OF AFRICA:</strong><br>
+          • @Home Furniture (Checkout)<br>
+          • Builders Hardware (Loading Bay)<br>
+          • <span style="color:var(--green);">Scan → Get R50 OFF your first booking</span>
+        </div>
+        
+        <button class="compare-button" onclick="addToCompare('listing1')">➕ Add to Compare</button>
+      </div>
+      
+      <!-- LISTING 2 -->
+      <div class="listing-card" id="listing2" style="display:none;">
+        <div class="verified-badge">VERIFIED</div>
+        <div class="listing-header">
+          <h4 class="listing-title">20ft Refrigerated Container</h4>
+          <div class="listing-price">R283/day<br><span style="font-size:0.85em; color:#666;">(R14,150/month)</span></div>
+        </div>
+        
+        <div class="listing-meta">
+          <span>⭐ 4.7 (19 reviews)</span>
+          <span>📍 Durban</span>
+        </div>
+        
+        <div class="listing-features">
+          <strong>Specifications:</strong><br>
+          • Dimensions: 6.0m x 2.4m x 2.6m<br>
+          • Temperature Range: -20°C to +20°C<br>
+          • Power Source: Generator or Grid<br>
+          • Material: Corrugated Steel<br>
+          • Floor: Anti-slip Vinyl<br><br>
+          <strong>Features:</strong><br>
+          • Humidity Control System<br>
+          • Lockable Double Doors<br>
+          • Internal Lighting<br>
+          • Forklift Access<br>
+          • Ideal for Food, Pharma, Flowers
+        </div>
+        
+        <div class="qr-prompt" id="qrPrompt2">
+          <strong>🖨️ SCAN QR AT MALL OF AFRICA:</strong><br>
+          • @Home Furniture (Checkout)<br>
+          • Builders Hardware (Loading Bay)<br>
+          • <span style="color:var(--green);">Scan → Get R50 OFF your first booking</span>
+        </div>
+        
+        <button class="compare-button" onclick="addToCompare('listing2')">➕ Add to Compare</button>
+      </div>
+      
+      <!-- LISTING 3 -->
+      <div class="listing-card" id="listing3" style="display:none;">
+        <div class="verified-badge">VERIFIED</div>
+        <div class="listing-header">
+          <h4 class="listing-title">Electric Delivery Bike (50km Range)</h4>
+          <div class="listing-price">R800/day</div>
+        </div>
+        
+        <div class="listing-meta">
+          <span>⭐ 4.9 (31 reviews)</span>
+          <span>📍 Cape Town</span>
+        </div>
+        
+        <div class="listing-features">
+          <strong>Specifications:</strong><br>
+          • Motor: 1000W Brushless<br>
+          • Battery: 48V 15Ah Lithium<br>
+          • Range: Up to 50km per charge<br>
+          • Charging Time: 4–5 hours<br>
+          • Max Speed: 25km/h<br><br>
+          <strong>Features:</strong><br>
+          • Cargo Box: 200L Capacity<br>
+          • GPS Tracker Included<br>
+          • Helmet & Lock Provided<br>
+          • Mobile App Control<br>
+          • Free Weekly Maintenance
+        </div>
+        
+        <div class="qr-prompt" id="qrPrompt3">
+          <strong>🖨️ SCAN QR AT MALL OF AFRICA:</strong><br>
+          • @Home Furniture (Checkout)<br>
+          • Builders Hardware (Loading Bay)<br>
+          • <span style="color:var(--green);">Scan → Get R50 OFF your first booking</span>
+        </div>
+        
+        <button class="compare-button" onclick="addToCompare('listing3')">➕ Add to Compare</button>
+      </div>
+
+      <!-- LISTING 4: OFFICE -->
+      <div class="listing-card" id="listing4" style="display:none;">
+        <div class="verified-badge">VERIFIED</div>
+        <div class="listing-header">
+          <h4 class="listing-title">Executive Office Suite - 25m²</h4>
+          <div class="listing-price">R152/day<br><span style="font-size:0.85em; color:#666;">(R3,800/month)</span></div>
+        </div>
+        
+        <div class="listing-meta">
+          <span>⭐ 4.8 (28 reviews)</span>
+          <span>📍 Sandton</span>
+        </div>
+        
+        <div class="listing-features">
+          <strong>Specifications:</strong><br>
+          • Area: 25m²<br>
+          • Capacity: 2 people<br>
+          • Flooring: Carpeted<br>
+          • Windows: Double-glazed<br><br>
+          <strong>Features:</strong><br>
+          • High-Speed Fiber Internet<br>
+          • Meeting Room Access<br>
+          • 24/7 Security & Access<br>
+          • Cleaning Services Included<br>
+          • Coffee & Tea Provided
+        </div>
+        
+        <div class="qr-prompt" id="qrPrompt4">
+          <strong>🖨️ SCAN QR AT MALL OF AFRICA:</strong><br>
+          • @Home Furniture (Checkout)<br>
+          • Builders Hardware (Loading Bay)<br>
+          • <span style="color:var(--green);">Scan → Get R50 OFF your first booking</span>
+        </div>
+        
+        <button class="compare-button" onclick="addToCompare('listing4')">➕ Add to Compare</button>
+      </div>
+
+      <!-- LISTING 5: CAMERA -->
+      <div class="listing-card" id="listing5" style="display:none;">
+        <div class="verified-badge">VERIFIED</div>
+        <div class="listing-header">
+          <h4 class="listing-title">4K Security Camera System - 8-Camera</h4>
+          <div class="listing-price">R1,444/day<br><span style="font-size:0.85em; color:#666;">(R43,333/month)</span></div>
+        </div>
+        
+        <div class="listing-meta">
+          <span>⭐ 4.9 (31 reviews)</span>
+          <span>📍 Johannesburg</span>
+        </div>
+        
+        <div class="listing-features">
+          <strong>Specifications:</strong><br>
+          • Resolution: 4K Ultra HD<br>
+          • Night Vision: 30m<br>
+          • Storage: Cloud + SD Card<br>
+          • Weatherproof: IP66<br><br>
+          <strong>Features:</strong><br>
+          • Mobile App Control<br>
+          • Motion Detection Alerts<br>
+          • Remote Pan/Tilt<br>
+          • Free Installation Guide<br>
+          • 1-Year Warranty
+        </div>
+        
+        <div class="qr-prompt" id="qrPrompt5">
+          <strong>🖨️ SCAN QR AT MALL OF AFRICA:</strong><br>
+          • @Home Furniture (Checkout)<br>
+          • Builders Hardware (Loading Bay)<br>
+          • <span style="color:var(--green);">Scan → Get R50 OFF your first booking</span>
+        </div>
+        
+        <button class="compare-button" onclick="addToCompare('listing5')">➕ Add to Compare</button>
+      </div>
+
+    </div>
+    
+    <!-- PEOPLE ALSO VIEWED (OPTIMIZATION #6) -->
+    <div class="also-viewed" id="alsoViewedSection">
+      <h4>👥 People Also Viewed</h4>
+      
+         <div class="listing-card" style="opacity:0.9;">
+        <div class="listing-header">
+          <h4 class="listing-title">Isuzu D-Max + Trailer</h4>
+          <div class="listing-price">R1,267/day</div>
+        </div>
+        
+        <div class="listing-meta">
+          <span>⭐ 4.5 (18 reviews)</span>
+          <span>📍 Centurion</span>
+        </div>
+        
+        <div class="listing-features">
+          • Perfect for furniture delivery<br>
+          • Flexible delivery times<br>
+          • Free fragile item protection
+        </div>
+        
+        <a href="https://wa.me/27630367794?text=Hi+LogisticsRent%2C+I+want+to+book+Isuzu+D-Max" 
+           class="compare-button">
+          💬 Book This Alternative
+        </a>
+      </div>
+      
+      <div style="background:var(--light); border-radius:8px; padding:12px; margin-top:15px; font-size:0.9em; color:#666;">
+        <strong>Why this works:</strong> 68% of renters who see alternatives end up booking one of the options
+      </div>
+    </div>
+    
+    <!-- COMPARISON VIEW -->
+    <div class="comparison-view" id="comparisonView">
+      <div class="comparison-header">
+        <h3 class="comparison-title">Compare Your Options</h3>
+        <button class="close-comparison" onclick="hideComparison()">&times;</button>
+      </div>
+      <table class="comparison-table">
+        <tr>
+          <th></th>
+          <th id="compTitle1">Option 1</th>
+          <th id="compTitle2">Option 2</th>
+          <th id="compTitle3" style="display:none;">Option 3</th>
+        </tr>
+        <tr>
+          <td><strong>Price</strong></td>
+          <td id="compPrice1">-</td>
+          <td id="compPrice2">-</td>
+          <td id="compPrice3" style="display:none;">-</td>
+        </tr>
+        <tr>
+          <td><strong>Size</strong></td>
+          <td id="compSize1">-</td>
+          <td id="compSize2">-</td>
+          <td id="compSize3" style="display:none;">-</td>
+        </tr>
+        <tr>
+          <td><strong>Price per m²/day</strong></td>
+          <td id="compPricePerSqm1">-</td>
+          <td id="compPricePerSqm2">-</td>
+          <td id="compPricePerSqm3" style="display:none;">-</td>
+        </tr>
+        <tr>
+          <td><strong>Location</strong></td>
+          <td id="compLocation1">-</td>
+          <td id="compLocation2">-</td>
+          <td id="compLocation3" style="display:none;">-</td>
+        </tr>
+        <tr>
+          <td><strong>Owner Rating</strong></td>
+          <td id="compRating1">-</td>
+          <td id="compRating2">-</td>
+          <td id="compRating3" style="display:none;">-</td>
+        </tr>
+        <tr>
+          <td><strong>Delivery/Pickup</strong></td>
+          <td id="compDelivery1">-</td>
+          <td id="compDelivery2">-</td>
+          <td id="compDelivery3" style="display:none;">-</td>
+        </tr>
+        <tr>
+          <td><strong>Waiting Time</strong></td>
+          <td id="compWaiting1">-</td>
+          <td id="compWaiting2">-</td>
+          <td id="compWaiting3" style="display:none;">-</td>
+        </tr>
+        <tr>
+          <td><strong>Fragile Items</strong></td>
+          <td id="compFragile1">-</td>
+          <td id="compFragile2">-</td>
+          <td id="compFragile3" style="display:none;">-</td>
+        </tr>
+        <tr>
+          <td><strong>Cancellation Policy</strong></td>
+          <td id="compCancellation1">-</td>
+          <td id="compCancellation2">-</td>
+          <td id="compCancellation3" style="display:none;">-</td>
+        </tr>
+      </table>
+      
+      <!-- WHATSAPP COMPARISON PROMPT (OPTIMIZATION #7) -->
+      <div class="whatsapp-comparison-prompt" id="whatsappComparisonPrompt">
+        <div>
+          <div style="background:var(--green); color:white; width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:bold;">1</div>
+          <strong>Compare via WhatsApp (Faster)</strong>
+        </div>
+        
+        <p>Can't decide? Send your comparison to WhatsApp and get personalized help:</p>
+        
+        <a href="https://wa.me/27630367794?text=Hi+LogisticsRent%2C+I+need+help+comparing+these+options%3A%0A%0A1.%20Option+1%0A2.%20Option+2%0A%0AWhich+is+best+for+my+needs%3F">
+          💬 Send Comparison to WhatsApp
+        </a>
+      </div>
+      
+      <button class="search-button" style="margin-top:15px;" onclick="showBooking()">✅ Book Your Selection</button>
+    </div>
+    
+    <!-- TRUST SECTION -->
+    <div class="trust-section">
+      <h4 class="trust-title">Why Renters Trust LogisticsRent</h4>
+      
+      <div class="trust-features">
+        <a href="https://wa.me/27630367794?text=Hi+LogisticsRent%2C+I+want+to+verify+my+identity%3A%0A%0AName%3A+%5BYour+Name%5D%0AID+Number%3A+%5BYour+ID%5D%0AWhatsApp%3A+%5BYour+Number%5D" 
+           class="trust-feature" style="text-decoration:none; color:inherit;">
+          <div class="trust-icon">🛡️</div>
+          <div>Verified Owners</div>
+          <div style="font-size:0.85em; margin-top:5px; color:#666;">Submit ID via WhatsApp</div>
+        </a>
+        
+        <a href="https://wa.me/27630367794?text=Hi+LogisticsRent%2C+I+need+to+submit+inspection+photos%3A%0A%0AAsset+Type%3A+%5BTruck%2FWarehouse%2FOffice%5D%0ARegistration%3A+%5BNumber%5D%0APhotos%3A+%5BAttach+via+WhatsApp%5D" 
+           class="trust-feature" style="text-decoration:none; color:inherit;">
+          <div class="trust-icon">📸</div>
+          <div>Digital Inspection</div>
+          <div style="font-size:0.85em; margin-top:5px; color:#666;">Send photos via WhatsApp</div>
+        </a>
+        
+        <a href="https://wa.me/27630367794?text=Hi+LogisticsRent%2C+I+need+payment+confirmation%3A%0A%0ABooking+ID%3A+%5BID%5D%0AAmount%3A+R%5BAmount%5D%0AProof%3A+%5BAttach+via+WhatsApp%5D" 
+           class="trust-feature" style="text-decoration:none; color:inherit;">
+          <div class="trust-icon">💰</div>
+          <div>Escrow Payments</div>
+          <div style="font-size:0.85em; margin-top:5px; color:#666;">Confirm payment via WhatsApp</div>
+        </a>
+        
+        <a href="https://wa.me/27630367794?text=Hi+LogisticsRent%2C+send+me+the+rental+agreement+template" 
+           class="trust-feature" style="text-decoration:none; color:inherit;">
+          <div class="trust-icon">📝</div>
+          <div>Clear Agreements</div>
+          <div style="font-size:0.85em; margin-top:5px; color:#666;">Get legal agreement via WhatsApp</div>
+        </a>
+      </div>
+      
+      <div style="margin-top: 15px; font-size: 0.95em; color: #666;">
+        <strong>Document Process:</strong><br>
+        1. Tap any trust feature above<br>
+        2. WhatsApp opens with pre-filled message<br>
+        3. Fill in your details & send (add photos if needed)<br>
+        4. We process your document within 20 minutes
+      </div>
+    </div>
+    
+    <!-- BOOKING SECTION -->
+    <div class="booking-section" id="bookingSection" style="display:none;">
+      <h4 class="booking-title">Complete Your Booking in 15 Seconds</h4>
+      
+      <div class="booking-options">
+        <a href="https://wa.me/27630367794?text=Hi+LogisticsRent%2C+I+want+to+book+your+selection" 
+           class="booking-button whatsapp">
+          💬 WhatsApp Booking (Get reply in 60 sec)
+        </a>
+        
+        <a href="https://wa.me/27630367794?voicecall" 
+           class="booking-button voice">
+          📞 WhatsApp Voice Call (Instant connection)
+        </a>
+        
+        <a href="tel:0630367794" 
+           class="booking-button call">
+          📞 Regular Phone Call (Tap to dial)
+        </a>
+      </div>
+      
+      <div class="booking-instructions">
+        <strong>How it works:</strong><br>
+        1. Tap your preferred booking method<br>
+        2. Confirm dates and details<br>
+        3. Pay securely through WhatsApp<br>
+        4. Get digital inspection confirmation
+      </div>
+    </div>
+    
+    <!-- QR SECTION -->
+    <div class="qr-section">
+      <h4 class="qr-title">🖨️ SCAN QR CODES AT STORES</h4>
+      
+      <div class="qr-instructions">
+        <strong>How to scan:</strong><br>
+        1. Open your <strong>phone camera</strong><br>
+        2. Point at QR code (like the one at Mall of Africa)<br>
+        3. Tap the notification that appears<br>
+        4. You'll be redirected to this comparison platform
+      </div>
+      
+      <a href="https://wa.me/27630367794?text=Hi+LogisticsRent%2C+send+me+the+demo+link" 
+         class="booking-button whatsapp" style="margin:15px 0;">
+        💬 Can't scan? Get link via WhatsApp
+      </a>
+      
+      <div class="qr-locations">
+        🗺️ <strong>QR Codes at:</strong> Mall of Africa (@Home, Builders) • Sandton City Mall • Checkers Sandton
+      </div>
+    </div>
+    
+    <!-- TRACKER SECTION (Only visible with ?track=true) -->
+    <div class="tracker-section" id="trackerSection">
+      <h4 style="color:var(--gold); text-align:center; margin:0 0 12px 0; font-size:1.2em;">
+        📊 SEARCH-TO-BOOKING TRACKER
+      </h4>
+      
+      <div class="tracker-stats">
+        <strong>Today's Performance:</strong><br>
+        • Searches: <span id="searchCount">0</span><br>
+        • Bookings: <span id="bookingCount">0</span><br>
+        • Conversion Rate: <span id="conversionRate">0%</span><br>
+        • <span style="color:var(--green);">BEST: 28% (Thandi, May 8)</span>
+      </div>
+      
+      <div class="tracker-tips">
+        <strong>How to improve:</strong><br>
+        • If rate &lt; 15%: Add "Scan QR at Mall of Africa" to search results<br>
+        • If rate &lt; 10%: Add WhatsApp booking button ABOVE search results
+      </div>
+    </div>
+    
+    <p class="footer-note">Backed by real demand. Built for scale. Africa's first rental comparison platform.</p>
+  </div>
+
+  <!-- ROBOT CHATBOT ICON — LINKS TO INFO PAGE -->
+  <a href="https://yourusername.github.io/logisticsrent-info" target="_blank" class="robot-chatbot" title="Learn how LogisticsRent works">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <!-- Head -->
+      <circle class="robot-head" cx="50" cy="35" r="18" />
+      <!-- Eyes -->
+      <circle class="robot-eye" cx="43" cy="30" r="2" />
+      <circle class="robot-eye" cx="57" cy="30" r="2" />
+      <!-- Body -->
+      <rect class="robot-body" x="30" y="55" width="40" height="30" rx="5" />
+      <!-- Arms -->
+      <rect class="robot-arm" x="15" y="60" width="10" height="20" rx="3" />
+      <rect class="robot-arm" x="75" y="60" width="10" height="20" rx="3" />
+      <!-- Legs -->
+      <rect class="robot-leg" x="35" y="85" width="8" height="10" rx="2" />
+      <rect class="robot-leg" x="57" y="85" width="8" height="10" rx="2" />
+    </svg>
+  </a>
+
+  <script>
+    // GLOBAL VARIABLES
+    let compareCount = 0;
+    let selectedItems = [];
+    let selectedListings = [];
+    let userLocation = 'sandton'; // Default location
+    let searchCount = 0;
+    let bookingCount = 0;
+
+    // REAL PROPERTY DATABASE WITH DAILY PRICING MODEL
+    const propertyDatabase = {
+      sandton: {
+        warehouses: [
+          {
+            id: 'sandton-warehouse-1',
+            name: "Sandton Warehouse Space",
+            size: "50m²",
+            pricePerSqmPerDay: 5.70,
+            totalPricePerDay: 285,
+            rating: "⭐ 4.9 (31 reviews)",
+            location: "📍 Sandton",
+            features: [
+              "• Climate controlled space",
+              "• 24/7 access with security",
+              "• Digital inspection included",
+              "• Free security cameras",
+              "• Insurance included"
+            ],
+            whatsappMsg: "Hi+LogisticsRent%2C+I+want+to+book+Sandton+Warehouse+Space"
+          },
+          {
+            id: 'sandton-warehouse-2',
+            name: "Sandton Industrial Unit",
+            size: "40m²",
+            pricePerSqmPerDay: 6.00,
+            totalPricePerDay: 240,
+            rating: "⭐ 4.7 (24 reviews)",
+            location: "📍 Sandton",
+            features: [
+              "• Loading bay access",
+              "• CCTV monitored",
+              "• 5 min free waiting time",
+              "• Digital inspection"
+            ],
+            whatsappMsg: "Hi+LogisticsRent%2C+I+want+to+book+Sandton+Industrial+Unit"
+          }
+        ],
+        offices: [
+          {
+            id: 'sandton-office-1',
+            name: "Sandton Executive Office",
+            size: "25m²",
+            pricePerSqmPerDay: 6.10,
+            totalPricePerDay: 153,
+            rating: "⭐ 4.8 (28 reviews)",
+            location: "📍 Sandton",
+            features: [
+              "• Private office for 2 people",
+              "• High-speed WiFi included",
+              "• Meeting room access",
+              "• Digital inspection",
+              "• 10 min free waiting time"
+            ],
+            whatsappMsg: "Hi+LogisticsRent%2C+I+want+to+book+Sandton+Executive+Office"
+          },
+          {
+            id: 'sandton-office-2',
+            name: "Sandton Coworking Space",
+            size: "8m²",
+            pricePerSqmPerDay: 6.25,
+            totalPricePerDay: 50,
+            rating: "⭐ 4.6 (33 reviews)",
+            location: "📍 Sandton",
+            features: [
+              "• All utilities included",
+              "• Free coffee & printing",
+              "• Digital inspection",
+              "• Instant booking"
+            ],
+            whatsappMsg: "Hi+LogisticsRent%2C+I+want+to+book+Sandton+Coworking+Space"
+          }
+        ],
+        residential: [
+          {
+            id: 'sandton-residential-1',
+            name: "Sandton 1-Bedroom Apartment",
+            size: "45m²",
+            pricePerSqmPerDay: 6.20,
+            totalPricePerDay: 279,
+            rating: "⭐ 4.9 (42 reviews)",
+            location: "📍 Sandton",
+            features: [
+              "• Fully furnished apartment",
+              "• Utilities & cleaning included",
+              "• 24/7 security",
+              "• Digital inspection",
+              "• No cancellation fee 48h ahead"
+            ],
+            whatsappMsg: "Hi+LogisticsRent%2C+I+want+to+book+Sandton+1-Bedroom"
+          },
+          {
+            id: 'sandton-residential-2',
+            name: "Sandton Studio Apartment",
+            size: "35m²",
+            pricePerSqmPerDay: 6.00,
+            totalPricePerDay: 210,
+            rating: "⭐ 4.7 (37 reviews)",
+            location: "📍 Sandton",
+            features: [
+              "• Modern studio with kitchenette",
+              "• Free WiFi & utilities",
+              "• Secure building",
+              "• Digital inspection",
+              "• Instant booking"
+            ],
+            whatsappMsg: "Hi+LogisticsRent%2C+I+want+to+book+Sandton+Studio"
+          }
+        ],
+        trucks: [
+          {
+            id: 'sandton-truck-1',
+            name: "2023 Freightliner Truck",
+            pricePerDay: 1200,
+            rating: "⭐ 4.8 (24 reviews)",
+            location: "📍 Sandton",
+            features: [
+              "• 20ft Container Space",
+              "• Driver Included",
+              "• Digital Inspection",
+              "• Free pickup at Mall of Africa",
+              "• R80 for fragile items"
+            ],
+            whatsappMsg: "Hi+LogisticsRent%2C+I+want+to+book+Freightliner+Truck"
+          },
+          {
+            id: 'sandton-truck-2',
+            name: "Toyota Hilux Rental",
+            pricePerDay: 800,
+            rating: "⭐ 4.3 (15 reviews)",
+            location: "📍 Sandton",
+            features: [
+              "• Reliable work vehicle",
+              "• Digital inspection",
+              "• 5 min free waiting time",
+              "• R50 insurance extra",
+              "• 3 min free loading time"
+            ],
+            whatsappMsg: "Hi+LogisticsRent%2C+I+want+to+book+Toyota+Hilux"
+          }
+        ],
+        trailers: [
+          {
+            id: 'sandton-trailer-1',
+            name: "20ft Trailer Rental",
+            pricePerDay: 850,
+            rating: "⭐ 4.6 (21 reviews)",
+            location: "📍 Sandton",
+            features: [
+              "• Heavy-duty trailer",
+              "• Safety chains & lights",
+              "• Digital inspection",
+              "• 5 min free waiting time",
+              "• R50 insurance extra"
+            ],
+            whatsappMsg: "Hi+LogisticsRent%2C+I+want+to+book+20ft+Trailer"
+          }
+        ],
+        cameras: [
+          {
+            id: 'sandton-camera-1',
+            name: "4K Security Camera System - 8-Camera",
+            pricePerDay: 1444,
+            rating: "⭐ 4.9 (31 reviews)",
+            location: "📍 Sandton",
+            features: [
+              "• 4K Ultra HD resolution",
+              "• Night vision up to 30m",
+              "• Cloud & SD card storage",
+              "• Mobile app control",
+              "• Weatherproof design",
+              "• Free installation guide"
+            ],
+            whatsappMsg: "Hi+LogisticsRent%2C+I+want+to+book+4K+Security+Camera+System+-+8-Camera"
+          }
+        ]
+      },
+      centurion: {
+        warehouses: [
+          {
+            id: 'centurion-warehouse-1',
+            name: "Centurion Warehouse Unit",
+            size: "40m²",
+            pricePerSqmPerDay: 5.70,
+            totalPricePerDay: 228,
+            rating: "⭐ 4.5 (19 reviews)",
+            location: "📍 Centurion",
+            features: [
+              "• CCTV monitored",
+              "• Flexible lease terms",
+              "• Digital inspection",
+              "• 3 min free waiting time"
+            ],
+            whatsappMsg: "Hi+LogisticsRent%2C+I+want+to+book+Centurion+Warehouse"
+          }
+        ],
+        trucks: [
+          {
+            id: 'centurion-truck-1',
+            name: "Isuzu D-Max + Trailer",
+            pricePerDay: 1267,
+            rating: "⭐ 4.5 (18 reviews)",
+            location: "📍 Centurion",
+            features: [
+              "• Perfect for furniture delivery",
+              "• Flexible delivery times",
+              "• Free fragile item protection",
+              "• 10 min free waiting time",
+              "• No delivery fee under 10km"
+            ],
+            whatsappMsg: "Hi+LogisticsRent%2C+I+want+to+book+Isuzu+D-Max"
+          }
+        ]
+      },
+      jhb: {
+        warehouses: [
+          {
+            id: 'jhb-warehouse-1',
+            name: "Johannesburg Warehouse Unit",
+            size: "40m²",
+            pricePerSqmPerDay: 5.70,
+            totalPricePerDay: 228,
+            rating: "⭐ 4.5 (19 reviews)",
+            location: "📍 Johannesburg CBD",
+            features: [
+              "• CCTV monitored",
+              "• Flexible lease terms",
+              "• Digital inspection",
+              "• 3 min free waiting time"
+            ],
+            whatsappMsg: "Hi+LogisticsRent%2C+I+want+to+book+JHB+Warehouse"
+          }
+        ],
+        offices: [
+          {
+            id: 'jhb-office-1',
+            name: "Johannesburg Office Suite",
+            size: "35m²",
+            pricePerSqmPerDay: 5.00,
+            totalPricePerDay: 175,
+            rating: "⭐ 4.4 (22 reviews)",
+            location: "📍 Johannesburg CBD",
+            features: [
+              "• Conference room access",
+              "• High-speed internet",
+              "• Digital inspection",
+              "• 5 min free waiting time"
+            ],
+            whatsappMsg: "Hi+LogisticsRent%2C+I+want+to+book+JHB+Office+Suite"
+          }
+        ],
+        residential: [
+          {
+            id: 'jhb-residential-1',
+            name: "Johannesburg 2-Bedroom",
+            size: "60m²",
+            pricePerSqmPerDay: 6.67,
+            totalPricePerDay: 400,
+            rating: "⭐ 4.6 (29 reviews)",
+            location: "📍 Johannesburg CBD",
+            features: [
+              "• Full kitchen & living area",
+              "• Secure parking",
+              "• Digital inspection",
+              "• 3 min free waiting time"
+            ],
+            whatsappMsg: "Hi+LogisticsRent%2C+I+want+to+book+JHB+2-Bedroom"
+          }
+        ],
+        trucks: [
+          {
+            id: 'jhb-truck-1',
+            name: "Toyota Hilux Rental",
+            pricePerDay: 800,
+            rating: "⭐ 4.3 (15 reviews)",
+            location: "📍 Johannesburg CBD",
+            features: [
+              "• Reliable work vehicle",
+              "• Digital inspection",
+              "• 5 min free waiting time",
+              "• R50 insurance extra",
+              "• 3 min free loading time"
+            ],
+            whatsappMsg: "Hi+LogisticsRent%2C+I+want+to+book+Toyota+Hilux"
+          }
+        ]
+      },
+      midrand: {
+        warehouses: [
+          {
+            id: 'midrand-warehouse-1',
+            name: "Midrand Industrial Warehouse",
+            size: "80m²",
+            pricePerSqmPerDay: 6.00,
+            totalPricePerDay: 480,
+            rating: "⭐ 4.7 (24 reviews)",
+            location: "📍 Midrand",
+            features: [
+              "• 10m ceiling height",
+              "• Security gates & cameras",
+              "• 5 min free waiting time",
+              "• Digital inspection"
+            ],
+            whatsappMsg: "Hi+LogisticsRent%2C+I+want+to+book+Midrand+Warehouse"
+          }
+        ],
+        trailers: [
+          {
+            id: 'midrand-trailer-1',
+            name: "Refrigerated Trailer",
+            pricePerDay: 1200,
+            rating: "⭐ 4.7 (19 reviews)",
+            location: "📍 Midrand",
+            features: [
+              "• Temperature-controlled",
+              "• Digital monitoring",
+              "• Digital inspection",
+              "• 10 min free waiting time",
+              "• Insurance included"
+            ],
+            whatsappMsg: "Hi+LogisticsRent%2C+I+want+to+book+Refrigerated+Trailer"
+          }
+        ]
+      },
+      pretoria: {
+        warehouses: [
+          {
+            id: 'pretoria-warehouse-1',
+            name: "Pretoria Warehouse Space",
+            size: "60m²",
+            pricePerSqmPerDay: 4.50,
+            totalPricePerDay: 270,
+            rating: "⭐ 4.6 (27 reviews)",
+            location: "📍 Pretoria",
+            features: [
+              "• 24/7 access",
+              "• Digital inspection",
+              "• Insurance included",
+              "• 5 min free waiting time"
+            ],
+            whatsappMsg: "Hi+LogisticsRent%2C+I+want+to+book+Pretoria+Warehouse"
+          }
+        ],
+        trucks: [
+          {
+            id: 'pretoria-truck-1',
+            name: "Isuzu D-Max Rental",
+            pricePerDay: 1187,
+            rating: "⭐ 4.4 (21 reviews)",
+            location: "📍 Pretoria",
+            features: [
+              "• Perfect for furniture delivery",
+              "• Digital inspection",
+              "• 8 min free waiting time",
+              "• R60 insurance extra",
+              "• No delivery fee under 15km"
+            ],
+            whatsappMsg: "Hi+LogisticsRent%2C+I+want+to+book+Isuzu+D-Max"
+          }
+        ]
+      }
+    };
+
+    // INITIALIZE ON PAGE LOAD
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get user location from URL parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlLocation = urlParams.get('location');
+      if (urlLocation && propertyDatabase[urlLocation]) {
+        userLocation = urlLocation;
+      }
+      
+      // Initialize tracker if ?track=true
+      if (urlParams.get('track') === 'true') {
+        document.getElementById('trackerSection').style.display = 'block';
+        loadTrackingData();
+      }
+      
+      // Set up event listeners
+      setupEventListeners();
+      
+      // For demo purposes, show search results if ?demo=true
+      if (urlParams.get('demo') === 'true') {
+        document.getElementById('searchInput').value = 'Warehouse';
+        document.getElementById('assetType').value = 'warehouses';
+        document.getElementById('location').value = userLocation;
+        performSearch();
+      }
+    });
+    
+    // SET UP EVENT LISTENERS
+    function setupEventListeners() {
+      // Compare basket click
+      document.getElementById('compareBasket').addEventListener('click', function() {
+        if (compareCount >= 2) {
+          showComparison();
+        } else {
+          alert('Add at least 2 items to compare');
+        }
+      });
+      
+      // Search button tracking
+      const searchButton = document.querySelector('.search-button');
+      if (searchButton) {
+        const originalOnclick = searchButton.onclick;
+        searchButton.onclick = function() {
+          searchCount++;
+          updateTracker();
+          if (originalOnclick) originalOnclick();
+        };
+      }
+    }
+    
+    // PERFORM SEARCH
+    function performSearch() {
+      // Show loading state
+      document.getElementById('searchButtonText').style.display = 'none';
+      document.getElementById('searchLoading').style.display = 'inline';
+      
+      // Get search values
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const assetType = document.getElementById('assetType').value;
+      const location = document.getElementById('location').value || userLocation;
+      
+      // Simulate API call (2 seconds)
+      setTimeout(() => {
+        // Hide loading
+        document.getElementById('searchButtonText').style.display = 'inline';
+        document.getElementById('searchLoading').style.display = 'none';
+        
+        // Show listings section
+        document.getElementById('listingsSection').style.display = 'block';
+        
+        // Update results heading
+        let locationName = location.charAt(0).toUpperCase() + location.slice(1);
+        if (location === 'jhb') locationName = 'Johannesburg CBD';
+        
+        let assetTypeName = "properties";
+        if (assetType === "warehouses") assetTypeName = "warehouses";
+        else if (assetType === "offices") assetTypeName = "offices";
+        else if (assetType === "residential") assetTypeName = "residential properties";
+        else if (assetType === "trucks") assetTypeName = "trucks & vans";
+        else if (assetType === "trailers") assetTypeName = "trailers & containers";
+        else if (assetType === "cameras") assetTypeName = "cameras";
+        
+        document.getElementById('resultsHeading').innerHTML = 
+          `3 Results for "${searchTerm || assetTypeName} in ${locationName}"`;
+        
+        // Get properties for this location
+        const properties = getPropertyResults(searchTerm, assetType, location);
+        
+        // Update listings
+        updateListings(properties);
+        
+        // Schedule QR prompt to appear after 8 seconds (OPTIMIZATION #2)
+        setTimeout(() => {
+          document.querySelectorAll('.qr-prompt').forEach(el => {
+            el.style.display = 'block';
+          });
+        }, 8000);
+        
+        // Schedule "People Also Viewed" to appear after 15 seconds (OPTIMIZATION #6)
+        setTimeout(() => {
+          document.getElementById('alsoViewedSection').style.display = 'block';
+        }, 15000);
+      }, 2000);
+    }
+    
+    // GET PROPERTY RESULTS
+    function getPropertyResults(searchTerm, assetType, location) {
+      // Get properties for this location
+      let properties = [];
+      if (propertyDatabase[location]) {
+        if (assetType && propertyDatabase[location][assetType]) {
+          properties = [...propertyDatabase[location][assetType]];
+        } else {
+          // If no asset type selected, show a mix
+          for (const type in propertyDatabase[location]) {
+            if (propertyDatabase[location][type].length > 0) {
+              properties.push(propertyDatabase[location][type][0]);
+            }
+          }
+        }
+      }
+      
+      // If we don't have enough properties, fill with defaults
+      while (properties.length < 3) {
+        const defaultProps = [
+          {
+            id: `default-warehouse-${properties.length + 1}`,
+            name: "Warehouse Space",
+            size: "50m²",
+            pricePerSqmPerDay: 5.70,
+            totalPricePerDay: 285,
+            rating: "⭐ 4.9 (31 reviews)",
+            location: "📍 Sandton",
+            features: [
+              "• Climate controlled space",
+              "• 24/7 access with security",
+              "• Digital inspection included"
+            ],
+            whatsappMsg: "Hi+LogisticsRent%2C+I+want+to+book+Warehouse+Space"
+          },
+          {
+            id: `default-truck-${properties.length + 1}`,
+            name: "2023 Freightliner Truck",
+            pricePerDay: 1200,
+            rating: "⭐ 4.8 (24 reviews)",
+            location: "📍 Sandton",
+            features: [
+              "• 20ft Container Space",
+              "• Driver Included",
+              "• Digital Inspection"
+            ],
+            whatsappMsg: "Hi+LogisticsRent%2C+I+want+to+book+Freightliner+Truck"
+          },
+          {
+            id: `default-office-${properties.length + 1}`,
+            name: "Executive Office",
+            size: "25m²",
+            pricePerSqmPerDay: 6.10,
+            totalPricePerDay: 153,
+            rating: "⭐ 4.8 (28 reviews)",
+            location: "📍 Sandton",
+            features: [
+              "• Private office for 2 people",
+              "• High-speed WiFi included",
+              "• Meeting room access"
+            ],
+            whatsappMsg: "Hi+LogisticsRent%2C+I+want+to+book+Executive+Office"
+          }
+        ];
+        properties.push(defaultProps[properties.length]);
+      }
+      
+      // Limit to 3 results
+      return properties.slice(0, 3);
+    }
+    
+    // UPDATE LISTINGS
+    function updateListings(properties) {
+      // Highlight user's location (OPTIMIZATION #3)
+      const locationHighlights = {
+        'sandton': 'Sandton',
+        'centurion': 'Centurion',
+        'jhb': 'Johannesburg CBD',
+        'midrand': 'Midrand',
+        'pretoria': 'Pretoria'
+      };
+      
+      // Identify top pick (OPTIMIZATION #4)
+      let topPickIndex = 0;
+      let bestScore = -1;
+      
+      properties.forEach((prop, index) => {
+        // For real estate, calculate score based on price per sqm/day
+        if (prop.pricePerSqmPerDay) {
+          const ratingText = prop.rating;
+          const ratingMatch = ratingText.match(/⭐ ([\d.]+)/);
+          const rating = ratingMatch ? parseFloat(ratingMatch[1]) : 0;
+          
+          const reviewsMatch = ratingText.match(/\((\d+) reviews\)/);
+          const reviews = reviewsMatch ? parseInt(reviewsMatch[1]) : 0;
+          
+          // Calculate score (higher is better)
+          // Rating (50%) + Reviews (20%) + Price competitiveness (30%)
+          const score = (rating * 0.5) + (Math.min(reviews/10, 5) * 0.05) + ((200 - prop.pricePerSqmPerDay) * 0.003);
+          
+          if (score > bestScore) {
+            bestScore = score;
+            topPickIndex = index;
+          }
+        }
+      });
+      
+      // Update each listing
+      for (let i = 0; i < 3; i++) {
+        const prop = properties[i];
+        const listingId = `listing${i + 1}`;
+        const listing = document.getElementById(listingId);
+        
+        // Make visible
+        listing.style.display = 'block';
+        
+        // Update content with daily pricing
+        if (prop.size && prop.pricePerSqmPerDay) {
+          // REAL ESTATE / OFFICES / STORAGE - SHOW PRICE PER SQM/DAY + TOTAL
+          const priceDisplay = `R${prop.totalPricePerDay.toLocaleString()}/day<br><span style="font-size:0.85em; color:#666;">(R${prop.pricePerSqmPerDay.toFixed(2)}/m²/day)</span>`;
+          
+          listing.querySelector('.listing-title').innerHTML = 
+            `${prop.name} <span style="font-size:0.8em; color:#666; font-weight:normal;">(${prop.size})</span>`;
+          listing.querySelector('.listing-price').innerHTML = priceDisplay;
+        } else {
+          // TRANSPORT / CAMERAS - FLAT DAILY RATE
+          listing.querySelector('.listing-title').textContent = prop.name;
+          listing.querySelector('.listing-price').textContent = `R${prop.pricePerDay.toLocaleString()}/day`;
+        }
+        
+        listing.querySelector('.listing-meta').innerHTML = 
+          `<span>${prop.rating}</span><span>${prop.location}</span>`;
+        
+        // Update features
+        let featuresHTML = '';
+        if (prop.features) {
+          prop.features.forEach(feature => {
+            featuresHTML += `<div>${feature}</div>`;
+          });
+        }
+        
+        // Add urgency triggers (OPTIMIZATION #5)
+        const viewers = 1 + Math.floor(Math.random() * 4);
+        featuresHTML += `<div class="urgency-item">👀 <strong>${viewers} person${viewers > 1 ? 's' : ''} viewing this listing</strong></div>`;
+        
+        const bookings = 2 + Math.floor(Math.random() * 5);
+        featuresHTML += `<div class="urgency-item">✅ <strong>${bookings} booking${bookings > 1 ? 's' : ''} today</strong> for this asset type</div>`;
+        
+        if (i === 0) { // Only for top listing
+          featuresHTML += `<div class="urgency-item" style="background:#FEECEC; border-left:4px solid #9A1717; padding:8px; color:#9A1717;">❗ <strong>Only 1 available today</strong> - 3 people have inquired</div>`;
+        }
+        
+        listing.querySelector('.listing-features').innerHTML = featuresHTML;
+        
+        // Add location highlight if matching user's location (OPTIMIZATION #3)
+        const locationText = prop.location.toLowerCase();
+        if (locationText.includes(userLocation) || locationHighlights[userLocation] && locationText.includes(locationHighlights[userLocation].toLowerCase())) {
+          let highlight = listing.querySelector('.location-highlight');
+          if (!highlight) {
+            highlight = document.createElement('div');
+            highlight.className = 'location-highlight';
+            listing.insertBefore(highlight, listing.firstChild);
+          }
+        }
+        
+        // Add top pick badge (OPTIMIZATION #4)
+        if (i === topPickIndex && prop.pricePerSqmPerDay) {
+          let badge = listing.querySelector('.top-pick-badge');
+          if (!badge) {
+            badge = document.createElement('div');
+            badge.className = 'top-pick-badge';
+            badge.textContent = "TOP PICK";
+            listing.appendChild(badge);
+            
+            // Add explanation
+            const explanation = document.createElement('div');
+            explanation.style.cssText = `
+              background: #FFF9E6;
+              border-left: 4px solid var(--gold);
+              padding: 10px;
+              margin: 10px 0 0 0;
+              font-size: 0.85em;
+            `;
+            explanation.innerHTML = `
+              <strong>Why this is your best option:</strong><br>
+              Best value at R${prop.pricePerSqmPerDay.toFixed(2)}/m²/day
+            `;
+            listing.querySelector('.listing-features').appendChild(explanation);
+          }
+        }
+      }
+    }
+    
+    // ADD TO COMPARE
+    function addToCompare(listingId) {
+      const listing = document.getElementById(listingId);
+      const title = listing.querySelector('.listing-title').textContent;
+      
+      if (selectedItems.includes(title)) {
+        alert('This item is already in your comparison');
+        return;
+      }
+      
+      selectedItems.push(title);
+      selectedListings.push(listingId);
+      compareCount++;
+      
+      document.getElementById('basketCount').textContent = compareCount;
+      document.getElementById('compareBasket').style.display = 'block';
+      
+      if (compareCount >= 2) {
+        updateComparisonView();
+        document.getElementById('comparisonView').style.display = 'block';
+        document.getElementById('listingsSection').style.display = 'none';
+      }
+    }
+    
+    // UPDATE COMPARISON VIEW
+    function updateComparisonView() {
+      // Update titles
+      for (let i = 0; i < selectedListings.length; i++) {
+        const listingId = selectedListings[i];
+        const listing = document.getElementById(listingId);
+        const title = listing.querySelector('.listing-title').textContent;
+        
+        document.getElementById(`compTitle${i + 1}`).textContent = title;
+        
+        // Update price with daily pricing
+        const priceElement = listing.querySelector('.listing-price');
+        let priceText = priceElement.textContent;
+        let sizeText = "";
+        let pricePerSqmPerDayText = "";
+        
+        // Extract the actual price display
+        if (priceElement.innerHTML.includes('/m²/day')) {
+          const matches = priceElement.innerHTML.match(/R([\d.,]+)\/m²\/day/);
+          if (matches) {
+            pricePerSqmPerDayText = `R${matches[1]}/m²/day`;
+            
+            // Get size from title
+            const sizeMatches = title.match(/\((\d+m²)\)/);
+            if (sizeMatches) {
+              sizeText = sizeMatches[1];
+            }
+          }
+          
+          // Extract total daily price
+          const totalMatch = priceElement.innerHTML.match(/R([\d.,]+)\/day/);
+          if (totalMatch) {
+            priceText = `R${totalMatch[1]}/day`;
+          }
+        } else {
+          // Transport/Cameras - flat daily rate
+          const match = priceElement.textContent.match(/R([\d.,]+)\/day/);
+          if (match) {
+            priceText = `R${match[1]}/day`;
+          }
+        }
+        
+        // Update comparison table
+        document.getElementById(`compPrice${i + 1}`).innerHTML = priceText;
+        document.getElementById(`compSize${i + 1}`).textContent = sizeText;
+        document.getElementById(`compPricePerSqm1`).textContent = pricePerSqmPerDayText;
+        
+        // Update location
+        const locationText = listing.querySelector('.listing-meta span:last-child').textContent;
+        document.getElementById(`compLocation${i + 1}`).textContent = locationText;
+        
+        // Update rating
+        const ratingText = listing.querySelector('.listing-meta span:first-child').textContent;
+        document.getElementById(`compRating${i + 1}`).textContent = ratingText;
+        
+        // Update delivery/pickup
+        document.getElementById(`compDelivery${i + 1}`).textContent = "Varies by owner";
+        
+        // Update waiting time
+        document.getElementById(`compWaiting${i + 1}`).textContent = "3-10 min free";
+        
+        // Update fragile items
+        document.getElementById(`compFragile${i + 1}`).textContent = "R50-80 extra";
+        
+        // Update cancellation policy
+        document.getElementById(`compCancellation${i + 1}`).textContent = "24-48 hours";
+      }
+      
+      // Show/hide columns based on number of items
+      if (selectedListings.length === 2) {
+        document.getElementById('compTitle3').style.display = 'none';
+        document.getElementById('compPrice3').style.display = 'none';
+        document.getElementById('compSize3').style.display = 'none';
+        document.getElementById('compPricePerSqm3').style.display = 'none';
+        document.getElementById('compLocation3').style.display = 'none';
+        document.getElementById('compRating3').style.display = 'none';
+        document.getElementById('compDelivery3').style.display = 'none';
+        document.getElementById('compWaiting3').style.display = 'none';
+        document.getElementById('compFragile3').style.display = 'none';
+        document.getElementById('compCancellation3').style.display = 'none';
+      } else {
+        document.getElementById('compTitle3').style.display = 'table-cell';
+        document.getElementById('compPrice3').style.display = 'table-cell';
+        document.getElementById('compSize3').style.display = 'table-cell';
+        document.getElementById('compPricePerSqm3').style.display = 'table-cell';
+        document.getElementById('compLocation3').style.display = 'table-cell';
+        document.getElementById('compRating3').style.display = 'table-cell';
+        document.getElementById('compDelivery3').style.display = 'table-cell';
+        document.getElementById('compWaiting3').style.display = 'table-cell';
+        document.getElementById('compFragile3').style.display = 'table-cell';
+        document.getElementById('compCancellation3').style.display = 'table-cell';
+      }
+    }
+    
+    // SHOW COMPARISON VIEW
+    function showComparison() {
+      if (compareCount >= 2) {
+        updateComparisonView();
+        document.getElementById('comparisonView').style.display = 'block';
+        document.getElementById('listingsSection').style.display = 'none';
+        
+        // Update WhatsApp comparison link (OPTIMIZATION #7)
+        const bookingLink = document.querySelector('#whatsappComparisonPrompt a');
+        bookingLink.href = bookingLink.href
+          .replace('Option 1', selectedItems[0] || 'Option 1')
+          .replace('Option 2', selectedItems[1] || 'Option 2');
+        
+        // Show WhatsApp comparison prompt
+        document.getElementById('whatsappComparisonPrompt').style.display = 'block';
+      }
+    }
+    
+    // HIDE COMPARISON VIEW
+    function hideComparison() {
+      document.getElementById('comparisonView').style.display = 'none';
+      document.getElementById('listingsSection').style.display = 'block';
+    }
+    
+    // SHOW BOOKING SECTION
+    function showBooking() {
+      document.getElementById('bookingSection').style.display = 'block';
+      document.getElementById('comparisonView').style.display = 'none';
+      
+      // Update booking WhatsApp link
+      const bookingLinks = document.querySelectorAll('.booking-button.whatsapp');
+      bookingLinks.forEach(link => {
+        link.href = link.href.replace('your+selection', 
+          selectedItems[0] ? selectedItems[0].replace(/\s+/g, '+') : 'your+selection');
+      });
+    }
+    
+    // TRACKER FUNCTIONS
+    function loadTrackingData() {
+      // In a real implementation, you'd fetch from Google Sheets
+      // For demo, we'll use localStorage
+      searchCount = parseInt(localStorage.getItem('searchCount')) || 0;
+      bookingCount = parseInt(localStorage.getItem('bookingCount')) || 0;
+      
+      document.getElementById('searchCount').textContent = searchCount;
+      document.getElementById('bookingCount').textContent = bookingCount;
+      
+      updateTracker();
+    }
+    
+    function updateTracker() {
+      if (searchCount > 0) {
+        const rate = Math.round((bookingCount / searchCount) * 100);
+        document.getElementById('conversionRate').textContent = rate + '%';
+        
+        // Color code based on performance
+        const rateEl = document.getElementById('conversionRate');
+        if (rate >= 20) {
+          rateEl.style.color = '#2D6A4F'; // Green
+        } else if (rate >= 10) {
+          rateEl.style.color = '#D4A017'; // Gold
+        } else {
+          rateEl.style.color = '#9A1717'; // Red
+        }
+      }
+      
+      // Save to localStorage
+      localStorage.setItem('searchCount', searchCount);
+      localStorage.setItem('bookingCount', bookingCount);
+    }
+    
+    function trackBooking() {
+      bookingCount++;
+      updateTracker();
+    }
+    
+    // Override booking buttons to track bookings
+    document.addEventListener('DOMContentLoaded', function() {
+      const bookingButtons = document.querySelectorAll('.booking-button.whatsapp, .booking-button.voice, .booking-button.call');
+      bookingButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          trackBooking();
+        });
+      });
+    });
+
+    // ========================
+    // ROBOT CHATBOT — CLICKABLE ICON LINKING TO INFO PAGE
+    // ========================
+    // Already implemented in HTML — just needs the correct link
+    // Replace "https://yourusername.github.io/logisticsrent-info" below with your actual info page URL
+  </script>
+</body>
+</html>
+   
+      
