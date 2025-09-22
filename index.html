@@ -1651,7 +1651,121 @@ function logAIEvent(eventName, eventData = {}) {
         
         // Get properties for this location
         const properties = getPropertyResults(searchTerm, assetType, location);
-        
+
+        // UPDATE LISTINGS — UPGRADED FOR AI AUTONOMY
+function updateListings(properties) {
+  // Highlight user's location (OPTIMIZATION #3)
+  const locationHighlights = {
+    'sandton': 'Sandton',
+    'centurion': 'Centurion',
+    'jhb': 'Johannesburg CBD',
+    'midrand': 'Midrand',
+    'pretoria': 'Pretoria'
+  };
+
+  // Identify top pick (OPTIMIZATION #4)
+  let topPickIndex = 0;
+  let bestScore = -1;
+  properties.forEach((prop, index) => {
+    // For real estate, calculate score based on price per sqm/day
+    if (prop.pricePerSqmPerDay) {
+      const ratingText = prop.rating;
+      const ratingMatch = ratingText.match(/⭐ ([\d.]+)/);
+      const rating = ratingMatch ? parseFloat(ratingMatch[1]) : 0;
+      const reviewsMatch = ratingText.match(/\((\d+) reviews\)/);
+      const reviews = reviewsMatch ? parseInt(reviewsMatch[1]) : 0;
+      // Calculate score (higher is better)
+      // Rating (50%) + Reviews (20%) + Price competitiveness (30%)
+      const score = (rating * 0.5) + (Math.min(reviews/10, 5) * 0.05) + ((200 - prop.pricePerSqmPerDay) * 0.003);
+      if (score > bestScore) {
+        bestScore = score;
+        topPickIndex = index;
+      }
+    }
+  });
+
+  // Update each listing
+  for (let i = 0; i < 3; i++) {
+    const prop = properties[i];
+    const listingId = `listing${i + 1}`;
+    // ✅ ONLY ONE DECLARATION OF 'listing' — THIS IS CORRECT
+    const listing = document.getElementById(listingId);
+
+    // Make visible
+    listing.style.display = 'block';
+
+    // Update content with daily pricing
+    if (prop.size && prop.pricePerSqmPerDay) {
+      // REAL ESTATE / OFFICES / STORAGE - SHOW PRICE PER SQM/DAY + TOTAL
+      const priceDisplay = `R${prop.totalPricePerDay.toLocaleString()}/day<br><span style="font-size:0.85em; color:#666;">(R${prop.pricePerSqmPerDay.toFixed(2)}/m²/day)</span>`;
+      listing.querySelector('.listing-title').innerHTML = 
+        `${prop.name} <span style="font-size:0.8em; color:#666; font-weight:normal;">(${prop.size})</span>`;
+      listing.querySelector('.listing-price').innerHTML = priceDisplay;
+    } else {
+      // TRANSPORT / CAMERAS - FLAT DAILY RATE
+      listing.querySelector('.listing-title').textContent = prop.name;
+      listing.querySelector('.listing-price').textContent = `R${prop.pricePerDay.toLocaleString()}/day`;
+    }
+
+    listing.querySelector('.listing-meta').innerHTML = 
+      `<span>${prop.rating}</span><span>${prop.location}</span>`;
+
+    // Update features
+    let featuresHTML = '';
+    if (prop.features) {
+      prop.features.forEach(feature => {
+        featuresHTML += `<div>${feature}</div>`;
+      });
+    }
+
+    // Add urgency triggers (OPTIMIZATION #5)
+    const viewers = 1 + Math.floor(Math.random() * 4);
+    featuresHTML += `<div class="urgency-item">👀 <strong>${viewers} person${viewers > 1 ? 's' : ''} viewing this listing</strong></div>`;
+    const bookings = 2 + Math.floor(Math.random() * 5);
+    featuresHTML += `<div class="urgency-item">✅ <strong>${bookings} booking${bookings > 1 ? 's' : ''} today</strong> for this asset type</div>`;
+    if (i === 0) { // Only for top listing
+      featuresHTML += `<div class="urgency-item" style="background:#FEECEC; border-left:4px solid #9A1717; padding:8px; color:#9A1717;">❗ <strong>Only 1 available today</strong> - 3 people have inquired</div>`;
+    }
+
+    listing.querySelector('.listing-features').innerHTML = featuresHTML;
+
+    // Add location highlight if matching user's location (OPTIMIZATION #3)
+    const locationText = prop.location.toLowerCase();
+    if (locationText.includes(userLocation) || locationHighlights[userLocation] && locationText.includes(locationHighlights[userLocation].toLowerCase())) {
+      let highlight = listing.querySelector('.location-highlight');
+      if (!highlight) {
+        highlight = document.createElement('div');
+        highlight.className = 'location-highlight';
+        listing.insertBefore(highlight, listing.firstChild);
+      }
+    }
+
+    // Add top pick badge (OPTIMIZATION #4)
+    if (i === topPickIndex && prop.pricePerSqmPerDay) {
+      let badge = listing.querySelector('.top-pick-badge');
+      if (!badge) {
+        badge = document.createElement('div');
+        badge.className = 'top-pick-badge';
+        badge.textContent = "TOP PICK";
+        listing.appendChild(badge);
+        // Add explanation
+        const explanation = document.createElement('div');
+        explanation.style.cssText = `
+          background: #FFF9E6;
+          border-left: 4px solid var(--gold);
+          padding: 10px;
+          margin: 10px 0 0 0;
+          font-size: 0.85em;
+        `;
+        explanation.innerHTML = `
+          <strong>Why this is your best option:</strong><br>
+          Best value at R${prop.pricePerSqmPerDay.toFixed(2)}/m²/day
+        `;
+        listing.querySelector('.listing-features').appendChild(explanation);
+      }
+    }
+  }
+}
         // Update listings
         updateListings(properties);
         
@@ -1740,142 +1854,6 @@ function logAIEvent(eventName, eventData = {}) {
       return properties.slice(0, 3);
     }
 
-     // UPDATE LISTINGS — UPGRADED FOR AI AUTONOMY
-function updateListings(properties) {
-  // Highlight user's location (OPTIMIZATION #3)
-  const locationHighlights = {
-    'sandton': 'Sandton',
-    'centurion': 'Centurion',
-    'jhb': 'Johannesburg CBD',
-    'midrand': 'Midrand',
-    'pretoria': 'Pretoria'
-  };
-
-  // Identify top pick (OPTIMIZATION #4)
-  let topPickIndex = 0;
-  let bestScore = -1;
-  properties.forEach((prop, index) => {
-    // For real estate, calculate score based on price per sqm/day
-    if (prop.pricePerSqmPerDay) {
-      const ratingText = prop.rating;
-      const ratingMatch = ratingText.match(/⭐ ([\d.]+)/);
-      const rating = ratingMatch ? parseFloat(ratingMatch[1]) : 0;
-      const reviewsMatch = ratingText.match(/\((\d+) reviews\)/);
-      const reviews = reviewsMatch ? parseInt(reviewsMatch[1]) : 0;
-      // Calculate score (higher is better)
-      // Rating (50%) + Reviews (20%) + Price competitiveness (30%)
-      const score = (rating * 0.5) + (Math.min(reviews/10, 5) * 0.05) + ((200 - prop.pricePerSqmPerDay) * 0.003);
-      if (score > bestScore) {
-        bestScore = score;
-        topPickIndex = index;
-      }
-    }
-  });
-
-  // Update each listing
-  for (let i = 0; i < 3; i++) {
-    const prop = properties[i];
-    const listingId = `listing${i + 1}`;
-    const listing = document.getElementById(listingId);
-
-    // Make visible
-    listing.style.display = 'block';
-
-    // =============================================
-    // 🤖 STEP 1: ATTACH MACHINE-READABLE DATA
-    // =============================================
-    listing.setAttribute('data-listing-id', prop.id || `default-${i+1}`);
-    listing.setAttribute('data-asset-type', prop.assetType || 'unknown');
-    listing.setAttribute('data-location', prop.location.replace('📍 ', '') || 'unknown');
-    listing.setAttribute('data-price-per-day', prop.totalPricePerDay || prop.pricePerDay || 0);
-    listing.setAttribute('data-size', prop.size || 'N/A');
-    listing.setAttribute('data-price-per-sqm-day', prop.pricePerSqmPerDay || 'N/A');
-    listing.setAttribute('data-rating', prop.rating.match(/⭐ ([\d.]+)/)?.[1] || '0');
-    listing.setAttribute('data-reviews', prop.rating.match(/\((\d+) reviews\)/)?.[1] || '0');
-    listing.setAttribute('data-whatsapp-msg', prop.whatsappMsg || '');
-
-    // 🤖 AI HOOK: Listing viewed
-  logAIEvent('listing_viewed', {
-    listingId: prop.id || `default-${i+1}`,
-    assetType: prop.assetType || 'unknown',
-    location: prop.location.replace('📍 ', '') || 'unknown',
-    pricePerDay: prop.totalPricePerDay || prop.pricePerDay || 0,
-    size: prop.size || 'N/A',
-    rating: prop.rating.match(/⭐ ([\d.]+)/)?.[1] || '0'
-  });
-    // Update content with daily pricing
-    if (prop.size && prop.pricePerSqmPerDay) {
-      // REAL ESTATE / OFFICES / STORAGE - SHOW PRICE PER SQM/DAY + TOTAL
-      const priceDisplay = `R${prop.totalPricePerDay.toLocaleString()}/day<br><span style="font-size:0.85em; color:#666;">(R${prop.pricePerSqmPerDay.toFixed(2)}/m²/day)</span>`;
-      listing.querySelector('.listing-title').innerHTML = 
-        `${prop.name} <span style="font-size:0.8em; color:#666; font-weight:normal;">(${prop.size})</span>`;
-      listing.querySelector('.listing-price').innerHTML = priceDisplay;
-    } else {
-      // TRANSPORT / CAMERAS - FLAT DAILY RATE
-      listing.querySelector('.listing-title').textContent = prop.name;
-      listing.querySelector('.listing-price').textContent = `R${prop.pricePerDay.toLocaleString()}/day`;
-    }
-
-    listing.querySelector('.listing-meta').innerHTML = 
-      `<span>${prop.rating}</span><span>${prop.location}</span>`;
-
-    // Update features
-    let featuresHTML = '';
-    if (prop.features) {
-      prop.features.forEach(feature => {
-        featuresHTML += `<div>${feature}</div>`;
-      });
-    }
-
-    // Add urgency triggers (OPTIMIZATION #5)
-    const viewers = 1 + Math.floor(Math.random() * 4);
-    featuresHTML += `<div class="urgency-item">👀 <strong>${viewers} person${viewers > 1 ? 's' : ''} viewing this listing</strong></div>`;
-    const bookings = 2 + Math.floor(Math.random() * 5);
-    featuresHTML += `<div class="urgency-item">✅ <strong>${bookings} booking${bookings > 1 ? 's' : ''} today</strong> for this asset type</div>`;
-    if (i === 0) { // Only for top listing
-      featuresHTML += `<div class="urgency-item" style="background:#FEECEC; border-left:4px solid #9A1717; padding:8px; color:#9A1717;">❗ <strong>Only 1 available today</strong> - 3 people have inquired</div>`;
-    }
-
-    listing.querySelector('.listing-features').innerHTML = featuresHTML;
-
-    // Add location highlight if matching user's location (OPTIMIZATION #3)
-    const locationText = prop.location.toLowerCase();
-    if (locationText.includes(userLocation) || locationHighlights[userLocation] && locationText.includes(locationHighlights[userLocation].toLowerCase())) {
-      let highlight = listing.querySelector('.location-highlight');
-      if (!highlight) {
-        highlight = document.createElement('div');
-        highlight.className = 'location-highlight';
-        listing.insertBefore(highlight, listing.firstChild);
-      }
-    }
-
-    // Add top pick badge (OPTIMIZATION #4)
-    if (i === topPickIndex && prop.pricePerSqmPerDay) {
-      let badge = listing.querySelector('.top-pick-badge');
-      if (!badge) {
-        badge = document.createElement('div');
-        badge.className = 'top-pick-badge';
-        badge.textContent = "TOP PICK";
-        listing.appendChild(badge);
-        // Add explanation
-        const explanation = document.createElement('div');
-        explanation.style.cssText = `
-          background: #FFF9E6;
-          border-left: 4px solid var(--gold);
-          padding: 10px;
-          margin: 10px 0 0 0;
-          font-size: 0.85em;
-        `;
-        explanation.innerHTML = `
-          <strong>Why this is your best option:</strong><br>
-          Best value at R${prop.pricePerSqmPerDay.toFixed(2)}/m²/day
-        `;
-        listing.querySelector('.listing-features').appendChild(explanation);
-      }
-    }
-  }
-}
-   
     // ADD TO COMPARE
     function addToCompare(listingId) {
       const listing = document.getElementById(listingId);
@@ -2102,3 +2080,4 @@ logAIEvent('booking_initiated', {
   </script>
 </body>
 </html>
+
