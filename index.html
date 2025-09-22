@@ -1626,7 +1626,6 @@ function logAIEvent(eventName, eventData = {}) {
       const searchTerm = document.getElementById('searchInput').value.toLowerCase();
       const assetType = document.getElementById('assetType').value;
       const location = document.getElementById('location').value || userLocation;
-
       // 🤖 AI HOOK: Search performed
 logAIEvent('search_performed', {
   searchTerm: searchTerm,
@@ -2121,3 +2120,4 @@ logAIEvent('booking_initiated', {
   </script>
 </body>
 </html>
+
