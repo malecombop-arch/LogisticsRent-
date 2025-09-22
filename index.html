@@ -1175,6 +1175,25 @@
   </a>
 
   <script>
+    // ========================
+// 🤖 AI EVENT HOOKS — STEP 2 FOR AUTONOMY
+// ========================
+function logAIEvent(eventName, eventData = {}) {
+  // Default behavior: log to console for debugging
+  console.log(`[AI EVENT] ${eventName}`, eventData);
+
+  // In future, AI agents can override this function to:
+  // - Send events to a backend
+  // - Trigger smart automations
+  // - Update pricing or UI dynamically
+
+  // Example structure for AI agents:
+  // {
+  //   event: "listing_viewed",
+  //   timestamp: Date.now(),
+  //   data: { listingId: "sandton-warehouse-1", assetType: "warehouses", price: 285 }
+  // }
+}
     // GLOBAL VARIABLES
     let compareCount = 0;
     let selectedItems = [];
@@ -1607,7 +1626,14 @@
       const searchTerm = document.getElementById('searchInput').value.toLowerCase();
       const assetType = document.getElementById('assetType').value;
       const location = document.getElementById('location').value || userLocation;
-      
+
+      // 🤖 AI HOOK: Search performed
+logAIEvent('search_performed', {
+  searchTerm: searchTerm,
+  assetType: assetType,
+  location: location,
+  timestamp: new Date().toISOString()
+});
       // Simulate API call (2 seconds)
       setTimeout(() => {
         // Hide loading
@@ -1763,6 +1789,25 @@ function updateListings(properties) {
 
     // Make visible
     listing.style.display = 'block';
+    // ========================
+// 🤖 AI EVENT HOOKS — STEP 2 FOR AUTONOMY
+// ========================
+function logAIEvent(eventName, eventData = {}) {
+  // Default behavior: log to console for debugging
+  console.log(`[AI EVENT] ${eventName}`, eventData);
+
+  // In future, AI agents can override this function to:
+  // - Send events to a backend
+  // - Trigger smart automations
+  // - Update pricing or UI dynamically
+
+  // Example structure for AI agents:
+  // {
+  //   event: "listing_viewed",
+  //   timestamp: Date.now(),
+  //   data: { listingId: "sandton-warehouse-1", assetType: "warehouses", price: 285 }
+  // }
+}
 
     // =============================================
     // 🤖 STEP 1: ATTACH MACHINE-READABLE DATA
@@ -1863,6 +1908,14 @@ function updateListings(properties) {
       selectedItems.push(title);
       selectedListings.push(listingId);
       compareCount++;
+      // 🤖 AI HOOK: Item added to compare
+const listing = document.getElementById(listingId);
+logAIEvent('compare_added', {
+  listingId: listingId,
+  title: title,
+  price: listing.querySelector('.listing-price')?.textContent || 'N/A',
+  location: listing.querySelector('.listing-meta span:last-child')?.textContent || 'N/A'
+});
       
       document.getElementById('basketCount').textContent = compareCount;
       document.getElementById('compareBasket').style.display = 'block';
@@ -1995,6 +2048,12 @@ function updateListings(properties) {
     // SHOW BOOKING SECTION
     function showBooking() {
       document.getElementById('bookingSection').style.display = 'block';
+      // 🤖 AI HOOK: Booking initiated
+logAIEvent('booking_initiated', {
+  selectedItems: [...selectedItems],
+  selectedListings: [...selectedListings],
+  itemCount: selectedItems.length
+});
       document.getElementById('comparisonView').style.display = 'none';
       
       // Update booking WhatsApp link
@@ -2062,10 +2121,3 @@ function updateListings(properties) {
   </script>
 </body>
 </html>
-   
-
-      
-
-
-
-
