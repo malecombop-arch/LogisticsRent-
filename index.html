@@ -1626,13 +1626,7 @@ function logAIEvent(eventName, eventData = {}) {
       const searchTerm = document.getElementById('searchInput').value.toLowerCase();
       const assetType = document.getElementById('assetType').value;
       const location = document.getElementById('location').value || userLocation;
-      // 🤖 AI HOOK: Search performed
-logAIEvent('search_performed', {
-  searchTerm: searchTerm,
-  assetType: assetType,
-  location: location,
-  timestamp: new Date().toISOString()
-});
+   
       // Simulate API call (2 seconds)
       setTimeout(() => {
         // Hide loading
@@ -1645,7 +1639,6 @@ logAIEvent('search_performed', {
         // Update results heading
         let locationName = location.charAt(0).toUpperCase() + location.slice(1);
         if (location === 'jhb') locationName = 'Johannesburg CBD';
-        
         let assetTypeName = "properties";
         if (assetType === "warehouses") assetTypeName = "warehouses";
         else if (assetType === "offices") assetTypeName = "offices";
@@ -1653,7 +1646,6 @@ logAIEvent('search_performed', {
         else if (assetType === "trucks") assetTypeName = "trucks & vans";
         else if (assetType === "trailers") assetTypeName = "trailers & containers";
         else if (assetType === "cameras") assetTypeName = "cameras";
-        
         document.getElementById('resultsHeading').innerHTML = 
           `3 Results for "${searchTerm || assetTypeName} in ${locationName}"`;
         
@@ -1788,25 +1780,6 @@ function updateListings(properties) {
 
     // Make visible
     listing.style.display = 'block';
-    // ========================
-// 🤖 AI EVENT HOOKS — STEP 2 FOR AUTONOMY
-// ========================
-function logAIEvent(eventName, eventData = {}) {
-  // Default behavior: log to console for debugging
-  console.log(`[AI EVENT] ${eventName}`, eventData);
-
-  // In future, AI agents can override this function to:
-  // - Send events to a backend
-  // - Trigger smart automations
-  // - Update pricing or UI dynamically
-
-  // Example structure for AI agents:
-  // {
-  //   event: "listing_viewed",
-  //   timestamp: Date.now(),
-  //   data: { listingId: "sandton-warehouse-1", assetType: "warehouses", price: 285 }
-  // }
-}
 
     // =============================================
     // 🤖 STEP 1: ATTACH MACHINE-READABLE DATA
@@ -1821,6 +1794,15 @@ function logAIEvent(eventName, eventData = {}) {
     listing.setAttribute('data-reviews', prop.rating.match(/\((\d+) reviews\)/)?.[1] || '0');
     listing.setAttribute('data-whatsapp-msg', prop.whatsappMsg || '');
 
+    // 🤖 AI HOOK: Listing viewed
+  logAIEvent('listing_viewed', {
+    listingId: prop.id || `default-${i+1}`,
+    assetType: prop.assetType || 'unknown',
+    location: prop.location.replace('📍 ', '') || 'unknown',
+    pricePerDay: prop.totalPricePerDay || prop.pricePerDay || 0,
+    size: prop.size || 'N/A',
+    rating: prop.rating.match(/⭐ ([\d.]+)/)?.[1] || '0'
+  });
     // Update content with daily pricing
     if (prop.size && prop.pricePerSqmPerDay) {
       // REAL ESTATE / OFFICES / STORAGE - SHOW PRICE PER SQM/DAY + TOTAL
@@ -2120,4 +2102,3 @@ logAIEvent('booking_initiated', {
   </script>
 </body>
 </html>
-
